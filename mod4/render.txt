@@ -1,0 +1,14 @@
+
+Host: dpg-cn1d8hf109ks73cf2qe0-a
+port: 5432
+db name: inventory_bcqt
+Username: ctrangel
+Password: n6DdDHS49i4uzMGHgiTAAZxHDXRlMZfq
+internal url: postgres://ctrangel:n6DdDHS49i4uzMGHgiTAAZxHDXRlMZfq@dpg-cn1d8hf109ks73cf2qe0-a/inventory_bcqt
+external: postgres://ctrangel:n6DdDHS49i4uzMGHgiTAAZxHDXRlMZfq@dpg-cn1d8hf109ks73cf2qe0-a.ohio-postgres.render.com/inventory_bcqt
+psql command: PGPASSWORD=n6DdDHS49i4uzMGHgiTAAZxHDXRlMZfq psql -h dpg-cn1d8hf109ks73cf2qe0-a.ohio-postgres.render.com -U ctrangel inventory_bcqt
+
+
+host for postgres locally: dpg-cn1d8hf109ks73cf2qe0-a.ohio-postgres.render.com
+
+host for api in github: dpg-cn1d8hf109ks73cf2qe0-a

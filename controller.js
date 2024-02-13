@@ -1,4 +1,4 @@
-const pool = require("../mod4/db");
+const pool = require("../API/db");
 const queries = require("./queries");
 
 

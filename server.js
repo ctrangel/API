@@ -1,5 +1,5 @@
 const express = require("express");
-const inventoryRoutes = require("src/inventory/routes.js");
+const inventoryRoutes = require("./src/inventory/routes.js");
 
 
 const app = express();

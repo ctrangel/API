@@ -1,5 +1,5 @@
 const { error } = require("console");
-const pool = require("../db");
+const pool = require("../../db");
 const queries = require("./queries");
 
 const getInventory = (req, res) => {
@@ -18,15 +18,24 @@ const getInventoryById = (req, res) => {
 };
 
 const addJar = (req, res) => {
-  const {id, jartype} = req.body;
+  const { id, jartype } = req.body;
   pool.query(queries.addJar, [id, jartype], (error, results) => {
-    if(error) throw error;
+    if (error) throw error;
     res.status(200).json(results.rows);
-  })
-}
+  });
+};
+
+const updateInventory = (req, res) => {
+  const { id, jartype } = req.body;
+  pool.query(queries.updateInventory, [id, jartype], (error, results) => {
+    if (error) throw error;
+    res.status(200).send("Updated Inventory Successfully");
+  });
+};
 
 module.exports = {
   getInventory,
   getInventoryById,
   addJar,
+  updateInventory,
 };

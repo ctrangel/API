@@ -26,13 +26,17 @@ const getInventoryById = (req, res) => {
 };
 
 const addJar = (req, res) => {
-  const { id, jartype } = req.body;
-  pool.query(queries.addJar, [id, jartype], (error, results) => {
+  const { jartype } = req.body;
+  pool.query(queries.addJar, [jartype], (error, results) => {
     if (error) {
       console.error("Database connection error:", error.stack);
       res.status(500).send("Database connection error");
     } else {
-      res.status(200).json(results.rows);
+      const newJar = results.rows[0]; 
+      res.status(201).json({
+        message: "New jar added successfully!",
+        data: newJar, 
+      });
     }
   });
 };

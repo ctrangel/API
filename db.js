@@ -7,6 +7,9 @@ const pool = new Pool({
   host: "dpg-cn1d8hf109ks73cf2qe0-a.ohio-postgres.render.com",
   database: "inventory_bcqt",
   port: 5432,
+  ssl: {
+    rejectUnauthorized: false
+  } 
 });
 
 // const pool = new Pool({

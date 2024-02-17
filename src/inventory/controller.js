@@ -16,6 +16,18 @@ const getInventory = (req, res) => {
   });
 };
 
+// get the COMPLETE REPORT
+const getCompleteInventoryReport = (req, res) => {
+  pool.query(getCompleteInventoryReport, (error, results) => {
+    if (error) {
+      console.error("Error querying the database:", error.stack);
+      res.status(500).send("Error querying the database");
+    } else {
+      res.status(200).json(results.rows);
+    }
+  });
+};
+
 // Get inventory by id jar
 const getInventoryById = (req, res) => {
   const id = parseInt(req.params.id);
@@ -108,6 +120,7 @@ const getInventoryByType = (req, res) => {
   });
 };
 
+// Filter inventory by quantity
 const getInventoryByQuantity = (req, res) => {
   const quantity = parseInt(req.params.quantity);
   pool.query(
@@ -272,4 +285,5 @@ module.exports = {
   addStatus,
   updateStatus,
   deleteStatus,
+  getCompleteInventoryReport,
 };

@@ -23,6 +23,23 @@ const filterInventoryByType = "SELECT * FROM jar WHERE jartype = $1";
 
 const filterInventoryByQuantity = "SELECT * FROM jar WHERE quantity = $1";
 
+//complete report
+
+const getCompleteInventoryReport = `
+SELECT 
+    jar.id, 
+    jar.jartype, 
+    jar.quantity, 
+    inventory_locations.name AS location_name, 
+    inventory_status.status AS status_status
+FROM 
+    jar
+INNER JOIN 
+    inventory_locations ON jar.location_id = inventory_locations.id
+INNER JOIN 
+    inventory_status ON jar.status_id = inventory_status.id;
+`;
+
 //************************************************************************************************ //
 
 //********************************* iventory_location table **************************************//
@@ -67,4 +84,20 @@ module.exports = {
   getInventoryById,
   addJar,
   updateInventory,
+  deleteInventory,
+  filterInventoryBylocation,
+  filterInventoryByStatus,
+  filterInventoryByType,
+  filterInventoryByQuantity,
+  getCompleteInventoryReport,
+  getInventoryLocation,
+  getInventoryLocationById,
+  addInventoryLocation,
+  updateInventoryLocation,
+  deleteInventoryLocation,
+  getAllInventoryStatuses,
+  getInventoryStatusById,
+  addInventoryStatus,
+  updateInventoryStatus,
+  deleteInventoryStatus
 };

@@ -25,37 +25,26 @@ const filterInventoryByQuantity = "SELECT * FROM jar WHERE quantity = $1";
 
 //complete report
 
-const getCompleteInventoryReport = `
-SELECT 
-    jar.id, 
-    jar.jartype, 
-    jar.quantity, 
-    inventory_locations.name AS location_name, 
-    inventory_status.status AS status_status
-FROM 
-    jar
-INNER JOIN 
-    inventory_locations ON jar.location_id = inventory_locations.id
-INNER JOIN 
-    inventory_status ON jar.status_id = inventory_status.id;
-`;
+const getCompleteInventoryReport =
+  "SELECT jar.id, jar.jartype, jar.quantity, inventory_locations.name AS location_name, inventory_status.status AS status FROM jar INNER JOIN inventory_locations ON jar.location_id = inventory_locations.id INNER JOIN inventory_status ON jar.status_id = inventory_status.id;";
+
 
 //************************************************************************************************ //
 
 //********************************* iventory_location table **************************************//
 
-const getInventoryLocation = "SELECT * FROM inventory_location";
+const getInventoryLocation = "SELECT * FROM inventory_locations";
 
 const getInventoryLocationById =
-  "SELECT * FROM inventory_location WHERE id = $1";
+  "SELECT * FROM inventory_locations WHERE id = $1";
 
 const addInventoryLocation =
-  "INSERT INTO inventory_location (name, description, location) VALUES ($1, $2, $3) RETURNING *";
+  "INSERT INTO inventory_locations (name, description, location) VALUES ($1, $2, $3) RETURNING *";
 
 const updateInventoryLocation =
-  "UPDATE inventory_location SET name = $1, description = $2, location = $3 WHERE id = $4 RETURNING *";
+  "UPDATE inventory_locations SET name = $1, description = $2, location = $3 WHERE id = $4 RETURNING *";
 
-const deleteInventoryLocation = "DELETE FROM inventory_location WHERE id = $1";
+const deleteInventoryLocation = "DELETE FROM inventory_locations WHERE id = $1";
 
 
 //************************************************************************************************ //

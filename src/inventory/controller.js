@@ -18,8 +18,9 @@ const getInventory = (req, res) => {
 
 // get the COMPLETE REPORT
 const getCompleteInventoryReport = (req, res) => {
-  pool.query(getCompleteInventoryReport, (error, results) => {
+  pool.query(queries.getCompleteInventoryReport, (error, results) => {
     if (error) {
+      console.log("this is happening");
       console.error("Error querying the database:", error.stack);
       res.status(500).send("Error querying the database");
     } else {
@@ -84,20 +85,25 @@ const updateInventory = (req, res) => {
 // Filter inventory by location
 const getInventoryByLocation = (req, res) => {
   const locationId = parseInt(req.params.locationId);
-  pool.query(filterInventoryByLocation, [locationId], (error, results) => {
-    if (error) {
-      console.error("Error querying the database:", error.stack);
-      res.status(500).send("Error querying the database");
-    } else {
-      res.status(200).json(results.rows);
+  pool.query(
+    queries.filterInventoryBylocation,
+    [locationId],
+    (error, results) => {
+      if (error) {
+        console.error("Error querying the database:", error.stack);
+        res.status(500).send("Error querying the database");
+      } else {
+        console.log("Filtered by location");
+        res.status(200).json(results.rows);
+      }
     }
-  });
+  );
 };
 
 // Filter inventory by status
 const getInventoryByStatus = (req, res) => {
   const statusId = parseInt(req.params.statusId);
-  pool.query(filterInventoryByStatus, [statusId], (error, results) => {
+  pool.query(queries.filterInventoryByStatus, [statusId], (error, results) => {
     if (error) {
       console.error("Error querying the database:", error.stack);
       res.status(500).send("Error querying the database");
@@ -110,7 +116,7 @@ const getInventoryByStatus = (req, res) => {
 // Filter inventory by type
 const getInventoryByType = (req, res) => {
   const jartype = req.params.jartype; // Assuming jartype is a string
-  pool.query(filterInventoryByType, [jartype], (error, results) => {
+  pool.query(queries.filterInventoryByType, [jartype], (error, results) => {
     if (error) {
       console.error("Error querying the database:", error.stack);
       res.status(500).send("Error querying the database");
@@ -143,9 +149,11 @@ const getInventoryByQuantity = (req, res) => {
 const getAllInventoryLocations = (req, res) => {
   pool.query(queries.getInventoryLocation, (error, results) => {
     if (error) {
+      console.error("Database Error:", error); // Logs the entire error
       return res.status(500).json({ error: error.message });
+    } else {
+      res.status(200).json(results.rows);
     }
-    res.status(200).json(results.rows);
   });
 };
 

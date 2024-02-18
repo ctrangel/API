@@ -12,7 +12,7 @@ router.put("/", controller.updateInventory);
 
 
 //filter routes on jar table
-router.get("/location/:locationId", controller.getAllInventoryLocations);
+router.get("/location/:locationId", controller.getInventoryLocationById);
 router.get("/status/:statusId", controller.getInventoryByStatus);
 router.get("/type/:jartype", controller.getInventoryByType);
 router.get("/quantity/:quantity", controller.getInventoryByQuantity);

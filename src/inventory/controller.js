@@ -32,7 +32,7 @@ async function loginUser(req, res) {
         res.status(401).json({ message: "Password does not match" });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.status(401).json({ message: "User not found" });
     }
   });
 }

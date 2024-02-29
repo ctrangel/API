@@ -2,14 +2,18 @@ const { Router } = require("express");
 const controller = require("./controller");
 const router = Router();
 
+// Routes for login
+router.post('/register', userController.addUser);
+router.post('/login', userController.loginUser); 
+router.put('/users/:id', userController.updateUser);
+router.delete('/users/:id', userController.deleteUser);
+
 // regular routes on jar table
 router.get("/complete-report", controller.getCompleteInventoryReport);
 router.get("/", controller.getInventory);
 router.get("/:id", controller.getInventoryById);
 router.post("/", controller.addJar);
 router.put("/", controller.updateInventory);
-
-
 
 //filter routes on jar table
 router.get("/location/:locationId", controller.getInventoryByLocation);

@@ -1,6 +1,90 @@
 const { error } = require("console");
 const pool = require("../../db");
 const queries = require("./queries");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Login Controls    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+// Function to login a user
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+
+async function loginUser(req, res) {
+  const { username, password } = req.body;
+
+  pool.query(queries.getUserByUsername, [username], async (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    if (results.rows.length > 0) {
+      const user = results.rows[0];
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (passwordMatch) {
+        // Generate JWT token
+        const token = jwt.sign(
+          { id: user.id, username: user.username },
+          JWT_SECRET,
+          { expiresIn: "2h" }
+        );
+        res.status(200).json({ message: "Login successful", token });
+      } else {
+        res.status(401).json({ message: "Password does not match" });
+      }
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  });
+}
+
+// Function to add a user
+async function addUser(req, res) {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  pool.query(queries.addUser, [username, hashedPassword], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(201).json(results.rows[0]);
+  });
+}
+
+// Function to get user by username
+function getUserByUsername(req, res) {
+  const username = req.params.username;
+
+  pool.query(queries.getUserByUsername, [username], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).json(results.rows[0]);
+  });
+}
+
+// Update user
+function updateUser(req, res) {
+  const { id, username, password } = req.body;
+
+  pool.query(queries.updateUser, [username, password, id], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).json(results.rows[0]);
+  });
+}
+
+// Delete user
+function deleteUser(req, res) {
+  const id = parseInt(req.params.id);
+
+  pool.query(queries.deleteUser, [id], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).send(`User deleted with ID: ${id}`);
+  });
+}
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Jar Table controls%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -294,4 +378,8 @@ module.exports = {
   updateStatus,
   deleteStatus,
   getCompleteInventoryReport,
+  addUser,
+  getUserByUsername,
+  updateUser,
+  deleteUser,
 };

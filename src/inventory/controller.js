@@ -46,7 +46,13 @@ async function addUser(req, res) {
     if (error) {
       return res.status(500).json({ error: error.message });
     }
-    res.status(201).json(results.rows[0]);
+    res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        username: results.rows[0].username,
+
+      },
+    });
   });
 }
 

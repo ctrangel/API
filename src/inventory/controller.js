@@ -133,24 +133,33 @@ const getInventoryById = (req, res) => {
 };
 
 // Add new jar to inventory
-const addJar = (req, res) => {
+const addOrUpdateJar = (req, res) => {
   const { jartype, location_id, status_id, quantity } = req.body;
+
+  // Use the upsert query that accounts for the composite unique constraint
   pool.query(
-    queries.addJar,
+   queries.upsertJar, // This query should be the one updated for composite uniqueness
     [jartype, location_id, status_id, quantity],
     (error, results) => {
       if (error) {
         console.error("Database connection error:", error.stack);
         res.status(500).send("Database connection error");
       } else {
+        // Customize the message based on whether a row was inserted or updated
+        const message =
+          results.rowCount === 1
+            ? "Jar added or updated successfully!"
+            : "Jar updated successfully!";
         res.status(201).json({
-          message: "New jar added successfully!",
-          data: results.rows[0],
+          message: message,
+          data: results.rows[0], // Assuming RETURNING * is used in the query
         });
       }
     }
   );
 };
+
+
 
 // Update inventory for jar
 const updateInventory = (req, res) => {
@@ -367,7 +376,7 @@ const deleteStatus = (req, res) => {
 module.exports = {
   getInventory,
   getInventoryById,
-  addJar,
+  addOrUpdateJar,
   updateInventory,
   getInventoryByLocation,
   getInventoryByStatus,

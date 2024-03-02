@@ -4,8 +4,14 @@ const getInventory = "SELECT * FROM jar";
 
 const getInventoryById = "SELECT * FROM jar WHERE id = $1";
 
-const addJar =
-  "INSERT INTO jar (jartype, location_id, status_id, quantity) VALUES ($1, $2, $3, $4) RETURNING *";
+const upsertJar = `
+  INSERT INTO jar (jartype, location_id, status_id, quantity)
+  VALUES ($1, $2, $3, $4)
+  ON CONFLICT (jartype, location_id, status_id)
+  DO UPDATE SET quantity = jar.quantity + EXCLUDED.quantity
+  RETURNING *;
+`;
+
 
 const updateInventory =
   "UPDATE jar SET jartype = $1, location_id = $2, status_id = $3, quantity = $4 WHERE id = $5 RETURNING *";
@@ -78,7 +84,7 @@ const deleteUser = "DELETE FROM users WHERE id = $1";
 module.exports = {
   getInventory,
   getInventoryById,
-  addJar,
+  upsertJar,
   updateInventory,
   deleteInventory,
   filterInventoryBylocation,

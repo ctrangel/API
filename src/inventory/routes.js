@@ -12,7 +12,7 @@ router.delete('/users/:id', controller.deleteUser);
 router.get("/complete-report", controller.getCompleteInventoryReport);
 router.get("/", controller.getInventory);
 router.get("/:id", controller.getInventoryById);
-router.post("/", controller.addJar);
+router.post("/", controller.addOrUpdateJar);
 router.put("/", controller.updateInventory);
 
 //filter routes on jar table

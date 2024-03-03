@@ -181,6 +181,20 @@ const updateInventory = (req, res) => {
   );
 };
 
+// Delete inventory for jar
+const deleteInventory = (req, res) => {
+  const id = parseInt(req.params.id);
+  pool.query(queries.deleteInventory, [id], (error, results) => {
+    if (error) {
+      console.error("Database connection error:", error.stack);
+      res.status(500).send("Database connection error");
+    } else {
+      res.status(200).json({ message: `Jar deleted with ID: ${id}` });
+    }
+  });
+};
+
+
 // Filter inventory by location
 const getInventoryByLocation = (req, res) => {
   const locationId = parseInt(req.params.locationId);
@@ -378,6 +392,7 @@ module.exports = {
   getInventoryById,
   addOrUpdateJar,
   updateInventory,
+  deleteInventory,
   getInventoryByLocation,
   getInventoryByStatus,
   getInventoryByType,

@@ -14,6 +14,7 @@ router.get("/", controller.getInventory);
 router.get("/:id", controller.getInventoryById);
 router.post("/", controller.addOrUpdateJar);
 router.put("/", controller.updateInventory);
+router.delete("/:id", controller.deleteInventory);
 
 //filter routes on jar table
 router.get("/location/:locationId", controller.getInventoryByLocation);

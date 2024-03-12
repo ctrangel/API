@@ -1,0 +1,109 @@
+= API Controller Functions Documentation (last updated 3/12/24)
+
+== Overview
+
+This document outlines the controller functions defined in `controller.js` for the Inventory Management System API. These functions handle the business logic for various API endpoints related to user management, inventory items, inventory locations, and inventory statuses.
+
+== Login Controls
+
+=== loginUser
+
+Authenticates a user by verifying the provided username and password against the database. On successful authentication, it generates and returns a JWT token.
+
+* Parameters: `username`, `password` (from request body)
+* Returns: JWT token on success; error message on failure
+
+=== addUser
+
+Registers a new user with a hashed password.
+
+* Parameters: `username`, `password` (from request body)
+* Returns: Confirmation of user registration
+
+=== getUserByUsername
+
+Retrieves user details by username.
+
+* Parameters: `username` (from URL params)
+* Returns: User details
+
+=== updateUser
+
+Updates the username and password for an existing user.
+
+* Parameters: `id`, `username`, `password` (from request body)
+* Returns: Updated user details
+
+=== deleteUser
+
+Deletes a user from the database.
+
+* Parameters: `id` (from URL params)
+* Returns: Confirmation of user deletion
+
+== Jar Table Controls
+
+=== getInventory
+
+Fetches all inventory items from the database.
+
+* Returns: Array of all inventory items
+
+=== getInventoryById
+
+Fetches a single inventory item by its ID.
+
+* Parameters: `id` (from URL params)
+* Returns: Details of the specified inventory item
+
+=== addOrUpdateJar
+
+Inserts a new jar item into the inventory or updates an existing item if it matches the specified criteria.
+
+* Parameters: `jartype`, `location_id`, `status_id`, `quantity` (from request body)
+* Returns: Details of the added or updated jar item
+
+=== updateInventory
+
+Updates the details of an existing inventory item.
+
+* Parameters: `id`, `jartype`, `location_id`, `status_id`, `quantity` (from request body)
+* Returns: Details of the updated inventory item
+
+=== deleteInventory
+
+Deletes an inventory item from the database.
+
+* Parameters: `id` (from URL params)
+* Returns: Confirmation of inventory item deletion
+
+=== getCompleteInventoryReport
+
+Generates a comprehensive inventory report by joining relevant tables.
+
+* Returns: Detailed inventory report
+
+== Inventory Location Controls
+
+Functions for managing inventory locations include `getAllInventoryLocations`, `getInventoryLocationById`, `addInventoryLocation`, `updateInventoryLocation`, and `deleteInventoryLocation`. These handle fetching, adding, updating, and deleting inventory locations.
+
+== Inventory Status Controls
+
+Functions for managing inventory statuses include `getAllStatuses`, `getStatusById`, `addStatus`, `updateStatus`, and `deleteStatus`. These handle fetching, adding, updating, and deleting inventory statuses.
+
+== Filters
+
+There are several filter functions, such as `getInventoryByLocation`, `getInventoryByStatus`, `getInventoryByType`, and `getInventoryByQuantity`, which filter the inventory based on specific criteria.
+
+== Implementation Notes
+
+[IMPORTANT]
+====
+- Ensure environment variables are properly configured for sensitive information such as `JWT_SECRET`.
+- Passwords are hashed using `bcryptjs` for security.
+- Error handling is implemented to return appropriate status codes and messages.
+====
+
+== Usage
+
+These controller functions are linked to specific API routes in `routes.js`. Refer to the routing documentation for how these functions are utilized within the application.

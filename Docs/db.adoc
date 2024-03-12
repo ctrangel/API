@@ -1,0 +1,44 @@
+= Database Connection Configuration (last updated 3/12/24)
+
+== Overview
+
+This document explains the `db.js` file in the Inventory Management System API, which configures the PostgreSQL connection using the `pg` library's `Pool` class. 
+
+== Configuration Details
+
+There are two examples of pool configuration in `db.js`:
+
+. The first, commented-out configuration, is for a PostgreSQL database hosted on Render.com. This configuration includes details like `user`, `password`, `host`, `database`, `port`, and SSL settings. SSL is configured to reject unauthorized connections, which is essential for secure database communication.
+
+. The second configuration is for a local PostgreSQL database. It specifies the `user`, `password`, `host`, `database`, and `port` without SSL settings, as SSL is typically not needed for local connections.
+
+== Best Practices for Sensitive Information
+
+[WARNING]
+====
+Storing sensitive information such as database passwords directly in your codebase is not recommended due to security risks. Instead, consider using environment variables or a secure secret management service to handle such sensitive details. This can be implemented using `dotenv` for local development and appropriate secret management tools in production environments.
+====
+
+== Example of Using Environment Variables
+
+[source,js]
+----
+require('dotenv').config();
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+  ssl: process.env.DB_SSL ? {
+    rejectUnauthorized: false
+  } : undefined,
+});
+
+module.exports = pool;
+----
+
+== Implementation
+
+Include `db.js` in parts of your application where database access is required. The pool object will manage connections to your PostgreSQL database, allowing you to perform queries and transactions.

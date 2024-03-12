@@ -1,0 +1,109 @@
+= Database Queries Documentation  (last updated 3/12/24)
+
+== Overview
+
+This document outlines the SQL queries used in the Inventory Management System API for interacting with the PostgreSQL database. It includes queries for managing jars, inventory locations, inventory statuses, and user accounts.
+
+== Jar Table Queries
+
+=== Retrieve Operations
+
+* *Get All Inventory Items*: `SELECT * FROM jar;`
+* *Get Inventory Item by ID*: `SELECT * FROM jar WHERE id = $1;`
+
+=== Upsert Operation
+
+* *Upsert Jar*: Inserts a new jar item or updates the quantity if the jar type, location, and status already exist.
+
+[source,sql]
+----
+INSERT INTO jar (jartype, location_id, status_id, quantity)
+VALUES ($1, $2, $3, $4)
+ON CONFLICT (jartype, location_id, status_id)
+DO UPDATE SET quantity = jar.quantity + EXCLUDED.quantity
+RETURNING *;
+----
+
+=== Update Operation
+
+* *Update Inventory*: `UPDATE jar SET jartype = $1, location_id = $2, status_id = $3, quantity = $4 WHERE id = $5 RETURNING *;`
+
+=== Delete Operation
+
+* *Delete Inventory*: `DELETE FROM jar WHERE id = $1;`
+
+=== Filter Operations
+
+* *By Location*: `SELECT * FROM jar WHERE location_id = $1;`
+* *By Status*: `SELECT * FROM jar WHERE status_id = $1;`
+* *By Type*: `SELECT * FROM jar WHERE jartype = $1;`
+* *By Quantity*: `SELECT * FROM jar WHERE quantity = $1;`
+
+=== Complete Report
+
+* *Get Complete Inventory Report*: Joins jar, inventory_locations, and inventory_status tables to provide a comprehensive inventory report.
+
+[source,sql]
+----
+SELECT jar.id, jar.jartype, jar.quantity, inventory_locations.name AS location_name, inventory_status.status AS status
+FROM jar
+INNER JOIN inventory_locations ON jar.location_id = inventory_locations.id
+INNER JOIN inventory_status ON jar.status_id = inventory_status.id;
+----
+
+== Inventory Location Table Queries
+
+=== Retrieve Operations
+
+* *Get All Inventory Locations*: `SELECT * FROM inventory_locations;`
+* *Get Inventory Location by ID*: `SELECT * FROM inventory_locations WHERE id = $1;`
+
+=== Insert Operation
+
+* *Add Inventory Location*: `INSERT INTO inventory_locations (name, description, location) VALUES ($1, $2, $3) RETURNING *;`
+
+=== Update Operation
+
+* *Update Inventory Location*: `UPDATE inventory_locations SET name = $1, description = $2, location = $3 WHERE id = $4 RETURNING *;`
+
+=== Delete Operation
+
+* *Delete Inventory Location*: `DELETE FROM inventory_locations WHERE id = $1;`
+
+== Inventory Status Table Queries
+
+=== Retrieve Operations
+
+* *Get All Inventory Statuses*: `SELECT * FROM inventory_status;`
+* *Get Inventory Status by ID*: `SELECT * FROM inventory_status WHERE id = $1;`
+
+=== Insert Operation
+
+* *Add Inventory Status*: `INSERT INTO inventory_status (status, description) VALUES ($1, $2) RETURNING *;`
+
+=== Update Operation
+
+* *Update Inventory Status*: `UPDATE inventory_status SET status = $1, description = $2 WHERE id = $3 RETURNING *;`
+
+=== Delete Operation
+
+* *Delete Inventory Status*: `DELETE FROM inventory_status WHERE id = $1;`
+
+== User Table Queries
+
+=== Retrieve Operations
+
+* *Get User by Username*: `SELECT * FROM users WHERE username = $1;`
+* *Get User by ID*: `SELECT * FROM users WHERE id = $1;`
+
+=== Insert Operation
+
+* *Add User*: `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`
+
+=== Update Operation
+
+* *Update User*: `UPDATE users SET username = $1, password = $2 WHERE id = $3 RETURNING *;`
+
+=== Delete Operation
+
+* *Delete User*: `DELETE FROM users WHERE id = $1;`

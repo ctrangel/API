@@ -1,0 +1,78 @@
+= Inventory Management System API Documentation  (last updated 3/12/24)
+
+== Overview
+
+The Inventory Management System API provides backend services for managing inventory data, specifically designed for operations related to jar products. It supports a range of operations including adding, updating, retrieving, and deleting inventory items.
+
+== Getting Started
+
+=== Prerequisites
+
+* Node.js installed on your local machine.
+* Access to a terminal or command prompt.
+
+=== Installation
+
+. Clone the repository to your local machine:
+
++
+[source,bash]
+----
+git clone https://example.com/inventory-management.git
+cd inventory-management
+----
+
+. Install the required dependencies:
+
++
+[source,bash]
+----
+npm install
+----
+
+. Start the server:
+
++
+[source,bash]
+----
+npm start
+----
+
+The server will start running on port 8003, and it can be accessed through `http://localhost:8003`.
+
+== API Endpoints
+
+=== Base URL
+
+The base URL for the API is `http://localhost:8003/api/v1/inventory`.
+
+=== Health Check
+
+* *Endpoint*: `/`
+* *Method*: `GET`
+* *Description*: Returns a simple message to indicate the API is running.
+* *Response*:
+** *200 OK*: `Henlo`
+
+=== Inventory Operations
+
+Below are the endpoints provided by the API for managing inventory items. Detailed information on `inventoryRoutes` is necessary to document specific operations like adding, updating, retrieving, and deleting items.
+
+Placeholder for detailed inventory endpoints documentation.
+
+== Authentication
+
+This API does not currently implement authentication. It is advised to protect sensitive routes and data in a production environment by integrating authentication mechanisms such as JWT, OAuth, or API keys.
+
+== Error Handling
+
+The API uses standard HTTP response codes to indicate the success or failure of requests:
+
+* *200 OK*: The request was successful.
+* *400 Bad Request*: The request was malformed or invalid.
+* *404 Not Found*: The requested resource was not found.
+* *500 Internal Server Error*: An error occurred on the server side.
+
+== Development and Contributions
+
+Contributions to the API are welcome. Please follow the standard GitHub flow by forking the repository, making changes, and submitting a pull request.

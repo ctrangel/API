@@ -1,0 +1,67 @@
+= API Routes Documentation (last updated 3/12/24)
+
+== Overview
+
+This document details the routes defined in the `router.js` file for the Inventory Management System API, describing the endpoints for managing users, jar inventory, inventory locations, and inventory statuses.
+
+== User Management Routes
+
+These routes handle user registrations, logins, updates, and deletions.
+
+- *Register*: `POST /register` - Registers a new user.
+- *Login*: `POST /login` - Authenticates a user and returns a JWT token.
+- *Update User*: `PUT /users/:id` - Updates user details.
+- *Delete User*: `DELETE /users/:id` - Deletes a user.
+
+== Jar Table Routes
+
+These routes manage jar inventory items, including fetching the complete report, specific items, adding or updating jars, and deleting them.
+
+- *Complete Inventory Report*: `GET /complete-report` - Fetches a detailed inventory report.
+- *Get All Inventory*: `GET /` - Retrieves all inventory items.
+- *Get Inventory by ID*: `GET /:id` - Fetches a specific inventory item by ID.
+- *Add or Update Jar*: `POST /` - Adds a new jar to the inventory or updates an existing one.
+- *Update Inventory*: `PUT /` - Updates details of an existing inventory item.
+- *Delete Inventory*: `DELETE /:id` - Removes an inventory item.
+
+== Filter Routes on Jar Table
+
+These routes provide filtered views of the inventory based on location, status, type, or quantity.
+
+- *By Location*: `GET /location/:locationId` - Filters inventory by location.
+- *By Status*: `GET /status/:statusId` - Filters inventory by status.
+- *By Type*: `GET /type/:jartype` - Filters inventory by jar type.
+- *By Quantity*: `GET /quantity/:quantity` - Filters inventory by quantity.
+
+== Inventory Locations Routes
+
+Manages inventory locations, including listing all locations, fetching, adding, updating, and deleting locations.
+
+- *Get All Locations*: `GET /locations` - Retrieves all inventory locations.
+- *Get Location by ID*: `GET /locations/:id` - Fetches details of a specific location.
+- *Add Location*: `POST /locations` - Adds a new inventory location.
+- *Update Location*: `PUT /locations/:id` - Updates an existing location.
+- *Delete Location*: `DELETE /locations/:id` - Removes an inventory location.
+
+== Inventory Status Routes
+
+Handles inventory status categories, allowing for listing, fetching, adding, updating, and deleting statuses.
+
+- *Get All Statuses*: `GET /statuses` - Lists all inventory statuses.
+- *Get Status by ID*: `GET /statuses/:id` - Fetches a specific inventory status.
+- *Add Status*: `POST /statuses` - Adds a new inventory status.
+- *Update Status*: `PUT /statuses/:id` - Updates an existing status.
+- *Delete Status*: `DELETE /statuses/:id` - Deletes an inventory status.
+
+== Implementation Notes
+
+[IMPORTANT]
+====
+- Ensure proper authorization checks are in place for routes that modify data.
+- Validate request payloads to prevent invalid data entries.
+- Use environment variables for sensitive configurations.
+====
+
+== Usage
+
+To utilize these routes within the application, include `router.js` in your server setup, ensuring that each controller function is properly linked to the corresponding endpoint.

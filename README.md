@@ -37,7 +37,7 @@ The backend of the World of Jars Inventory Management System is built with Node.
 
 Clone the repository and install dependencies:
 
-```bash
+
 git clone https://example.com/world-of-jars-backend.git
 cd world-of-jars-backend
 npm install
@@ -46,7 +46,6 @@ npm install
 
 Start the server locally:
 
-```bash
 npm start
 
 ## API Endpoints
